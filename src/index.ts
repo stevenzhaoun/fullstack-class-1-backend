@@ -1,6 +1,7 @@
 import express from 'express'
 import UserRouter from './routes/users'
 import RoleRouter from './routes/role'
+import PermissionRouter from './routes/permissions'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
@@ -16,6 +17,7 @@ app.get('/hello', function(req, res) {
 
 app.use('/users', UserRouter)
 app.use('/roles', RoleRouter)
+app.use('/permissions', PermissionRouter)
 
 app.listen(3000, () => {
     console.log('The server is running at http://localhost:3000')
