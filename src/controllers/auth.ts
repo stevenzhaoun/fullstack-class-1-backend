@@ -1,12 +1,16 @@
 import { Request, Response } from "express";
 import { prisma } from "../client";
-import { compareSync } from 'bcryptjs'
+import { compareSync, hashSync } from 'bcryptjs'
 import { sign } from 'jsonwebtoken'
 
 
 interface LoginBody {
     email: string;
     password: string;
+}
+
+interface UpdatePasswordBody {
+    password: string,
 }
 
 export async function login(req: Request<any, any, LoginBody>, res: Response) {
@@ -54,6 +58,20 @@ export async function login(req: Request<any, any, LoginBody>, res: Response) {
     // }
 
     return res.json(userResponse)
+}
 
+export const updatePassword = async (req: Request<any, any, UpdatePasswordBody>, res: Response) => {
+    const userId = (req as any).user.id as number
+    const { password } = req.body
 
+    await prisma.password.update({
+        where: {
+            userId: userId
+        },
+        data: {
+            hash: hashSync(password, 10)
+        }
+    })
+
+    return res.status(200).send('Update success')
 }
