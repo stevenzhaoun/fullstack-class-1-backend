@@ -1,7 +1,6 @@
 import { Request, Response } from 'express'
 import { prisma } from '../client'
 import { hashSync } from 'bcryptjs'
-import { disconnect } from 'process'
 
 export const getUsers = async (req: Request, res: Response) => {
 
